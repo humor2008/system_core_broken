@@ -1215,12 +1215,7 @@ static int handle_open(struct fuse* fuse, struct fuse_handler* handler,
     out.fh = ptr_to_id(h);
     out.open_flags = 0;
 
-#ifdef FUSE_SHORTCIRCUIT
-    out.lower_fd = h->fd;
-#else
-    out.padding = 0;
-#endif
-#ifdef FUSE_STACKED_IO
+#if defined(FUSE_STACKED_IO) || defined(FUSE_SHORTCIRCUIT)
     out.lower_fd = h->fd;
 #else
     out.padding = 0;
@@ -1390,12 +1385,7 @@ static int handle_opendir(struct fuse* fuse, struct fuse_handler* handler,
     out.fh = ptr_to_id(h);
     out.open_flags = 0;
 
-#ifdef FUSE_SHORTCIRCUIT
-    out.lower_fd = -1;
-#else
-    out.padding = 0;
-#endif
-#ifdef FUSE_STACKED_IO
+#if defined(FUSE_STACKED_IO) || defined(FUSE_SHORTCIRCUIT)
     out.lower_fd = -1;
 #else
     out.padding = 0;
